@@ -1,0 +1,8 @@
+ version: '3.8'
+services:
+  my_app:
+    image: python:3.9
+    volumes:
+      - ./app:/app
+    command: python /app/script.py
+    restart: always
