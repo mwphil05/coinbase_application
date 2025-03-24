@@ -13,6 +13,7 @@ class AvailableBalance:
         _currency = str(obj.get("currency"))
         return AvailableBalance(_value, _currency)
 
+
 @dataclass
 class Hold:
     value: str
@@ -23,6 +24,7 @@ class Hold:
         _value = str(obj.get("value"))
         _currency = str(obj.get("currency"))
         return Hold(_value, _currency)
+
 
 @dataclass
 class Root:

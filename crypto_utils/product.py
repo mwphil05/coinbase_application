@@ -2,6 +2,7 @@ from typing import List
 from typing import Any
 from dataclasses import dataclass
 
+
 @dataclass
 class Maintenance:
     start_time: str
@@ -12,6 +13,7 @@ class Maintenance:
         _start_time = str(obj.get("start_time"))
         _end_time = str(obj.get("end_time"))
         return Maintenance(_start_time, _end_time)
+
 
 @dataclass
 class PerpetualDetails:
@@ -31,6 +33,7 @@ class PerpetualDetails:
         _base_asset_uuid = str(obj.get("base_asset_uuid"))
         _underlying_type = str(obj.get("underlying_type"))
         return PerpetualDetails(_open_interest, _funding_rate, _funding_time, _max_leverage, _base_asset_uuid, _underlying_type)
+
 
 @dataclass
 class FcmTradingSessionDetails:
@@ -54,6 +57,7 @@ class FcmTradingSessionDetails:
         return FcmTradingSessionDetails(_is_session_open, _open_time, _close_time, _session_state,
                                         _after_hours_order_entry_disabled, _closed_reason,
                                         _maintenance)
+
 
 @dataclass
 class FutureProductDetails:
@@ -98,6 +102,7 @@ class FutureProductDetails:
                                     _risk_managed_by, _contract_expiry_type, _perpetual_details,
                                     _contract_display_name, _time_to_expiry_ms, _non_crypto,
                                     _contract_expiry_name, _twenty_four_by_seven)
+
 
 @dataclass
 class Root:

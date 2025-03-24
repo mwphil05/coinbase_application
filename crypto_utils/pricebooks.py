@@ -14,6 +14,7 @@ class Ask:
         _size = str(obj.get("size"))
         return Ask(_price, _size)
 
+
 @dataclass
 class Bid:
     price: str
@@ -24,6 +25,7 @@ class Bid:
         _price = str(obj.get("price"))
         _size = str(obj.get("size"))
         return Bid(_price, _size)
+
 
 @dataclass
 class Pricebook:
@@ -39,6 +41,7 @@ class Pricebook:
         _asks = [Ask.from_dict(y) for y in obj.get("asks")]
         _time = str(obj.get("time"))
         return Pricebook(_product_id, _bids, _asks, _time)
+
 
 @dataclass
 class Root:
