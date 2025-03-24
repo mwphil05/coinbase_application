@@ -11,7 +11,8 @@ api_secret = os.environ.get('COINBASE_API_SECRET')
 
 
 def store_price(name, price):
-    execute_sql(f"INSERT INTO price_book(name, price, created_at) VALUES('{name}','{price}', now())");
+    execute_sql(f"INSERT INTO price_book(name, price, created_at) "
+                f"VALUES('{name}','{price}', now())");
 
 
 def vacuum_old_prices():
@@ -21,7 +22,8 @@ def vacuum_old_prices():
 
 def select_last_price(crypto_name):
     price = execute_sql_single_column_value(
-        f"SELECT price FROM price_book WHERE name = '{crypto_name}' ORDER BY created_at DESC LIMIT 1")
+        f"SELECT price FROM price_book WHERE name = '{crypto_name}' "
+        f"ORDER BY created_at DESC LIMIT 1")
     return float(price)
 
 
@@ -96,8 +98,9 @@ def ingest_data():
         if key == "accounts":
             for item in value:
                 # balance = item["available_balance"]["value"]
-                if item["name"] != "Cash (USD)" and item["currency"] not in ["ANT", "GALA", "BIT", "GNT", "DDX", "ETH2",
-                                                                             "USDC"]:
+                if item["name"] != "Cash (USD)" and item["currency"] not in ["ANT", "GALA",
+                                                                             "BIT", "GNT", "DDX",
+                                                                             "ETH2", "USDC"]:
                     product_info = client.get_product(item["currency"] + "-USD")
                     root = Root.from_dict(product_info.to_dict())
                     product_id = root.product_id
@@ -106,7 +109,10 @@ def ingest_data():
                     last_price = select_last_price(product_id)
                     my_percent_changed = percent_change(last_price, price)
                     print(
-                        f"product: {product_id} | price: [current: ({price:.6f}) <= previous: ({last_price:.6f})] | percent_change: {my_percent_changed:.2f} | percent_change (24h): {percent_changed:.2f}")
+                        f"product: {product_id} | price: "
+                        f"[current: ({price:.6f}) <= previous: ({last_price:.6f})] "
+                        f"| percent_change: {my_percent_changed:.2f} "
+                        f"| percent_change (24h): {percent_changed:.2f}")
                     store_price(product_id, price)
 
 

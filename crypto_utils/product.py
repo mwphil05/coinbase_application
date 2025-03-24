@@ -52,7 +52,9 @@ class FcmTradingSessionDetails:
         _after_hours_order_entry_disabled = str(obj.get("after_hours_order_entry_disabled"))
         _closed_reason = str(obj.get("closed_reason"))
         _maintenance = Maintenance.from_dict(obj.get("maintenance"))
-        return FcmTradingSessionDetails(_is_session_open, _open_time, _close_time, _session_state, _after_hours_order_entry_disabled, _closed_reason, _maintenance)
+        return FcmTradingSessionDetails(_is_session_open, _open_time, _close_time, _session_state,
+                                        _after_hours_order_entry_disabled, _closed_reason,
+                                        _maintenance)
 
 @dataclass
 class FutureProductDetails:
@@ -91,7 +93,12 @@ class FutureProductDetails:
         _non_crypto = str(obj.get("non_crypto"))
         _contract_expiry_name = str(obj.get("contract_expiry_name"))
         _twenty_four_by_seven = str(obj.get("twenty_four_by_seven"))
-        return FutureProductDetails(_venue, _contract_code, _contract_expiry, _contract_size, _contract_root_unit, _group_description, _contract_expiry_timezone, _group_short_description, _risk_managed_by, _contract_expiry_type, _perpetual_details, _contract_display_name, _time_to_expiry_ms, _non_crypto, _contract_expiry_name, _twenty_four_by_seven)
+        return FutureProductDetails(_venue, _contract_code, _contract_expiry, _contract_size,
+                                    _contract_root_unit, _group_description,
+                                    _contract_expiry_timezone, _group_short_description,
+                                    _risk_managed_by, _contract_expiry_type, _perpetual_details,
+                                    _contract_display_name, _time_to_expiry_ms, _non_crypto,
+                                    _contract_expiry_name, _twenty_four_by_seven)
 
 @dataclass
 class Root:
@@ -120,7 +127,6 @@ class Root:
     product_type: str
     quote_currency_id: str
     base_currency_id: str
-    #fcm_trading_session_details: FcmTradingSessionDetails
     mid_market_price: str
     alias: str
     alias_to: List[str]
@@ -132,7 +138,6 @@ class Root:
     product_venue: str
     approximate_quote_24h_volume: str
     new_at: str
-    #future_product_details: FutureProductDetails
 
     @staticmethod
     def from_dict(obj: Any) -> 'Root':
@@ -161,11 +166,9 @@ class Root:
         _product_type = str(obj.get("product_type"))
         _quote_currency_id = str(obj.get("quote_currency_id"))
         _base_currency_id = str(obj.get("base_currency_id"))
-        #_fcm_trading_session_details = FcmTradingSessionDetails.from_dict(obj.get("fcm_trading_session_details"))
         _mid_market_price = str(obj.get("mid_market_price"))
         _alias = str(obj.get("alias"))
         _alias_to = []
-        #_alias_to = [.from_dict(y) for y in obj.get("alias_to")]
         _base_display_symbol = str(obj.get("base_display_symbol"))
         _quote_display_symbol = str(obj.get("quote_display_symbol"))
         _view_only = True
@@ -174,10 +177,12 @@ class Root:
         _product_venue = str(obj.get("product_venue"))
         _approximate_quote_24h_volume = str(obj.get("approximate_quote_24h_volume"))
         _new_at = str(obj.get("new_at"))
-        #_future_product_details = FutureProductDetails.from_dict(obj.get("future_product_details"))
-        # return Root(_product_id, _price, _price_percentage_change_24h, _volume_24h, _volume_percentage_change_24h, _base_increment, _quote_increment, _quote_min_size, _quote_max_size, _base_min_size, _base_max_size, _base_name, _quote_name, _watched, _is_disabled, _new, _status, _cancel_only, _limit_only, _post_only, _trading_disabled, _auction_mode, _product_type, _quote_currency_id, _base_currency_id, _fcm_trading_session_details, _mid_market_price, _alias, _alias_to, _base_display_symbol, _quote_display_symbol, _view_only, _price_increment, _display_name, _product_venue, _approximate_quote_24h_volume, _new_at, _future_product_details)
 
-        return Root(_product_id, _price, _price_percentage_change_24h, _volume_24h, _volume_percentage_change_24h, _base_increment, _quote_increment, _quote_min_size, _quote_max_size, _base_min_size, _base_max_size, _base_name, _quote_name, _watched, _is_disabled, _new, _status, _cancel_only, _limit_only, _post_only, _trading_disabled, _auction_mode, _product_type, _quote_currency_id, _base_currency_id, _mid_market_price, _alias, _alias_to, _base_display_symbol, _quote_display_symbol, _view_only, _price_increment, _display_name, _product_venue, _approximate_quote_24h_volume, _new_at)
-# Example Usage
-# jsonstring = json.loads(myjsonstring)
-# root = Root.from_dict(jsonstring)
+        return Root(_product_id, _price, _price_percentage_change_24h, _volume_24h,
+                    _volume_percentage_change_24h, _base_increment, _quote_increment,
+                    _quote_min_size, _quote_max_size, _base_min_size, _base_max_size,
+                    _base_name, _quote_name, _watched, _is_disabled, _new, _status, _cancel_only,
+                    _limit_only, _post_only, _trading_disabled, _auction_mode, _product_type,
+                    _quote_currency_id, _base_currency_id, _mid_market_price, _alias, _alias_to,
+                    _base_display_symbol, _quote_display_symbol, _view_only, _price_increment,
+                    _display_name, _product_venue, _approximate_quote_24h_volume, _new_at)

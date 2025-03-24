@@ -1,6 +1,7 @@
 from typing import Any
 from dataclasses import dataclass
-import json
+
+
 @dataclass
 class AvailableBalance:
     value: str
@@ -56,8 +57,6 @@ class Root:
         _hold = Hold.from_dict(obj.get("hold"))
         _retail_portfolio_id = str(obj.get("retail_portfolio_id"))
         _platform = str(obj.get("platform"))
-        return Root(_uuid, _name, _currency, _available_balance, _default, _active, _created_at, _updated_at, _deleted_at, _type, _ready, _hold, _retail_portfolio_id, _platform)
-
-# Example Usage
-# jsonstring = json.loads(myjsonstring)
-# root = Root.from_dict(jsonstring)
+        return Root(_uuid, _name, _currency, _available_balance, _default, _active,
+                    _created_at, _updated_at, _deleted_at, _type, _ready, _hold,
+                    _retail_portfolio_id, _platform)

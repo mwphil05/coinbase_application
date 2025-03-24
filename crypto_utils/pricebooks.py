@@ -1,8 +1,8 @@
 from typing import List
 from typing import Any
-from json import dumps,loads,load
 from dataclasses import dataclass
-import json
+
+
 @dataclass
 class Ask:
     price: str
@@ -48,7 +48,3 @@ class Root:
     def from_dict(obj: Any) -> 'Root':
         _pricebooks = [Pricebook.from_dict(y) for y in obj.get("pricebooks")]
         return Root(_pricebooks)
-
-# Example Usage
-# jsonstring = json.loads(myjsonstring)
-# root = Root.from_dict(jsonstring)
