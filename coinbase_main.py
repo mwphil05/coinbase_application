@@ -1,20 +1,16 @@
-from coinbase.rest import RESTClient
-from json import dumps, loads, load
-from crypto_utils.pricebooks import Root
-from crypto_utils.product import Root
-# import crypto_utils.account
-import psycopg2
 import os
 
-# api_key = "organizations/53577ac0-e3af-4993-82ed-49265c834df1/apiKeys/dcaeb2d6-8225-42f2-a07c-b86e33891a30"
-# api_secret = "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIDchuo7p5/nzKt39ENCX5aku6pwqZj8yC6CzG9PwET+GoAoGCCqGSM49\nAwEHoUQDQgAEipzvPF2dcPflxFjHN/bMv7yBAolp5f5jLI46v/Gdbnu8/P/mPnPe\nJF2guGVuDfftFOpjmsmBpdIAGL358NSVAg==\n-----END EC PRIVATE KEY-----\n"
+import psycopg2
+from coinbase.rest import RESTClient
+
+from crypto_utils.pricebooks import Root
+from crypto_utils.product import Root
+
 api_key = os.environ.get('COINBASE_API_KEY')
 api_secret = os.environ.get('COINBASE_API_SECRET')
-print(f"api_key: {api_key}")
-print(f"api_secret: {api_secret}")
+
 
 def store_price(name, price):
-    # print(f"Storing current price for {name} as {price}")
     execute_sql(f"INSERT INTO price_book(name, price, created_at) VALUES('{name}','{price}', now())");
 
 
@@ -26,7 +22,6 @@ def vacuum_old_prices():
 def select_last_price(crypto_name):
     price = execute_sql_single_column_value(
         f"SELECT price FROM price_book WHERE name = '{crypto_name}' ORDER BY created_at DESC LIMIT 1")
-    # print(f"select last price for {crypto_name}: {price}")
     return float(price)
 
 
@@ -117,4 +112,3 @@ def ingest_data():
 
 ingest_data()
 vacuum_old_prices()
-#print(os.environ)
