@@ -42,7 +42,10 @@ def execute_sql(sql_query):
             row = cur.fetchone()
             if row:
                 return row[0]
+            else:
+                return 0.01
 
+        conn.commit()
         cur.close()
         conn.close()
         return None

@@ -32,7 +32,8 @@ class PerpetualDetails:
         _max_leverage = str(obj.get("max_leverage"))
         _base_asset_uuid = str(obj.get("base_asset_uuid"))
         _underlying_type = str(obj.get("underlying_type"))
-        return PerpetualDetails(_open_interest, _funding_rate, _funding_time, _max_leverage, _base_asset_uuid, _underlying_type)
+        return PerpetualDetails(_open_interest, _funding_rate, _funding_time, _max_leverage,
+                                _base_asset_uuid, _underlying_type)
 
 
 @dataclass
