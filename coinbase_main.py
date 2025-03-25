@@ -37,18 +37,17 @@ def execute_sql(sql_query):
         conn = psycopg2.connect(**db_params)
         cur = conn.cursor()
         cur.execute(sql_query)
+        return_value = None
 
         if cur.description:
             row = cur.fetchone()
             if row:
-                return row[0]
-            else:
-                return 0.01
+                return_value = row[0]
 
         conn.commit()
         cur.close()
         conn.close()
-        return None
+        return return_value
 
     except psycopg2.Error as e:
         print(f"Database error: {e}")
