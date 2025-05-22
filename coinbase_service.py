@@ -24,6 +24,7 @@ class CoinbaseService:
         self.api_key = api_key
         self.api_secret = api_secret
         self.client = RESTClient(self.api_key, self.api_secret)
+        self.logger = logging.getLogger('simpleExample')
 
     def store_price(self, name, price):
         """
@@ -40,7 +41,7 @@ class CoinbaseService:
         delete records older than 1 hour
         :return:
         """
-        logging.info("vacuum records older than 1 hour")
+        self.logger.info("vacuum records older than 1 hour")
         self.execute_sql("DELETE FROM price_book WHERE created_at < now()- interval '1 hour'")
 
     def select_last_price(self, crypto_name):
@@ -67,8 +68,7 @@ class CoinbaseService:
         diff = (value2 - value1) / value1
         return diff * 100
 
-    @staticmethod
-    def execute_sql(sql_query):
+    def execute_sql(self, sql_query):
         """
         execute the given sql statement
         :param sql_query:
@@ -99,7 +99,7 @@ class CoinbaseService:
             return return_value
 
         except psycopg2.Error as e:
-            logging.error("Database error: %s", e)
+            self.logger.error("Database error: %s", e)
 
     def init_item_lot(self, item):
         """
@@ -127,7 +127,7 @@ class CoinbaseService:
         percent_changed = float(root.price_percentage_change_24h)
         last_price = self.select_last_price(product_id)
         my_percent_changed = self.percent_change(last_price, price)
-        logging.info("product: %s | price: "
+        self.logger.info("product: %s | price: "
                      "[current: (%f) <= previous: (%f)] "
                      "| percent_change: %f"
                      "| percent_change (24h): %f",
@@ -138,7 +138,7 @@ class CoinbaseService:
                 f"*** FOUND increase {my_percent_changed} > {DESIRED_PERCENT} =>  "
                 f"product: {product_id} | price: "
                 f"[current: ({price:.6f}) <= previous: ({last_price:.6f})] ***")
-            logging.info("FOUND increase: %f > %f => product: %s |"
+            self.logger.info("FOUND increase: %f > %f => product: %s |"
                          " price: [current: (%f) <= previous: (%f)]",
                          my_percent_changed, DESIRED_PERCENT, product_id, price, last_price)
             print(f"SELL {item} now at percent changed: {my_percent_changed}!")
@@ -152,7 +152,7 @@ class CoinbaseService:
         :return:
         """
         self.vacuum_old_prices()
-        logging.info("establishing initial lots")
+        self.logger.info("establishing initial lots")
         self.ingest_data_multi(True)
 
     def ingest_data_multi(self, init_only=False):

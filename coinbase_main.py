@@ -4,6 +4,7 @@ main module for coinbase application
 import os
 import time
 import logging
+import logging.config
 import datetime
 import schedule
 import ignore
@@ -13,7 +14,8 @@ from coinbase_service import CoinbaseService
 api_key = os.environ.get('COINBASE_API_KEY')
 api_secret = os.environ.get('COINBASE_API_SECRET')
 coinbase_svc = CoinbaseService(api_key, api_secret)
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.config.fileConfig('logging.conf')
+logger = logging.getLogger('simpleExample')
 
 
 def process_coinbase():
@@ -36,7 +38,7 @@ def check_coinbase():
     :return:
     """
     # Your code to be executed every 30 minutes goes here
-    logging.info("Executing check_coinbase at %s", datetime.datetime.now())
+    logger.info("Executing check_coinbase at %s", datetime.datetime.now())
     coinbase_svc.ingest_data_multi()
     # coinbase_svc.vacuum_old_prices()
 
