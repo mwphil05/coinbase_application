@@ -1,6 +1,5 @@
 -- Adminer 5.0.6 PostgreSQL 17.4 (Debian 17.4-1.pgdg120+2) dump
-
-\connect "crypto_prices";
+-- connect "crypto_prices";
 
 DROP TABLE IF EXISTS "price_book";
 DROP SEQUENCE IF EXISTS price_book_id_seq;
