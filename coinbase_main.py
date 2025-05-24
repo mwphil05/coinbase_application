@@ -1,9 +1,7 @@
 """
 main module for coinbase application
 """
-import os
 import time
-import logging
 import logging.config
 import datetime
 import schedule
@@ -11,11 +9,9 @@ import ignore
 
 from coinbase_service import CoinbaseService
 
-api_key = os.environ.get('COINBASE_API_KEY')
-api_secret = os.environ.get('COINBASE_API_SECRET')
-coinbase_svc = CoinbaseService(api_key, api_secret)
+coinbase_svc = CoinbaseService()
 logging.config.fileConfig('logging.conf')
-logger = logging.getLogger('simpleExample')
+logger = logging.getLogger('simpleLogger')
 
 
 def process_coinbase():
