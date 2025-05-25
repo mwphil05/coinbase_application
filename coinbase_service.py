@@ -3,9 +3,6 @@ service module for coinbase crypto
 """
 import logging
 
-from accounts_manager import AccountsManager
-from database_manager import DatabaseManager
-
 DESIRED_PERCENT = 5.0
 
 
@@ -13,12 +10,12 @@ class CoinbaseService:
     """
     class to encapsulate the CoinbaseService api
     """
-    def __init__(self):
+    def __init__(self, account_manager, database_manager):
         """
         initialize the CoinbaseService
         """
-        self.account_manager = AccountsManager()
-        self.database_manager = DatabaseManager()
+        self.account_manager = account_manager
+        self.database_manager = database_manager
         self.logger = logging.getLogger('simpleLogger')
 
     @staticmethod
@@ -67,7 +64,7 @@ class CoinbaseService:
             print(
                 f"*** FOUND increase {my_percent_changed} > {DESIRED_PERCENT} =>  "
                 f"product: {product_id} | price: "
-                f"[current: ({price:.6f}) <= previous: ({last_price:.6f})] ***")
+                f"[current: ({price}) <= previous: ({last_price})] ***")
             self.logger.info("FOUND increase: %f > %f => product: %s |"
                              " price: [current: (%f) <= previous: (%f)]",
                              my_percent_changed, DESIRED_PERCENT, product_id, price, last_price)

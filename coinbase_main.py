@@ -6,10 +6,14 @@ import logging.config
 import datetime
 import schedule
 import ignore
+from accounts_manager import AccountsManager
 
 from coinbase_service import CoinbaseService
+from database_manager import DatabaseManager
 
-coinbase_svc = CoinbaseService()
+accounts_manager = AccountsManager()
+database_manager = DatabaseManager()
+coinbase_svc = CoinbaseService(accounts_manager, database_manager)
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger('simpleLogger')
 
