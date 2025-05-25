@@ -49,4 +49,3 @@ class AccountsManager:
         """
         product_info = self.client.get_product(item)
         return Root.from_dict(product_info.to_dict())
-
