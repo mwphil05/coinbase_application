@@ -2,6 +2,8 @@
 test module for coinbase
 """
 import unittest
+import io
+import contextlib
 from unittest.mock import MagicMock, patch
 
 from coinbase_service import CoinbaseService
@@ -41,8 +43,12 @@ class TestCoinbase(unittest.TestCase):
         :return:
         """
         print("testing: test_ingest_data_single")
-        self.instance.ingest_data_single("BTC-USD")
-        self.assertEqual(100, 100)  # add assertion here
+        val = "*** FOUND increase 0.5 > 0.01"
+        with io.StringIO() as buf, contextlib.redirect_stdout(buf):
+            self.instance.ingest_data_single("BTC-USD")
+            output = buf.getvalue()
+            print(output)
+            self.assertTrue(val in output)
 
 
 def get_product_test_response():
