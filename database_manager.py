@@ -59,6 +59,22 @@ class DatabaseManager:
         self.execute_sql(f"INSERT INTO price_book(name, price, created_at) "
                          f"VALUES('{name}','{price}', now())")
 
+    def save_lot(self, lot):
+        """
+        INSERT INTO "lots" ("id", "name", "quantity", "price_paid",
+        "created_at", "executed", "value") VALUES
+        (1,	'BTC_USD',	1,	5.00,	'2025-05-26 15:52:31.502472',
+        '0',	5.00);
+
+        persist the price to the db
+        :param lot:
+        :return:
+        """
+        self.execute_sql(f"INSERT INTO lots(name, quantity, price_paid, executed, "
+                         f"value, created_at) "
+                         f"VALUES('{lot.name}','{lot.quantity}', '{lot.price_paid}',"
+                         f"'{lot.executed}', '{lot.value}', now())")
+
     def vacuum_old_prices(self):
         """
         delete records older than 1 hour

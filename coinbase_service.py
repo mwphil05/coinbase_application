@@ -2,8 +2,12 @@
 service module for coinbase crypto
 """
 import logging
+import datetime
+
+from crypto_utils.lots import Lot
 
 DESIRED_PERCENT = 5.0
+DESIRED_QTY = 1
 
 
 class CoinbaseService:
@@ -51,15 +55,13 @@ class CoinbaseService:
         root = self.account_manager.get_product_info(item)
         product_id = root.product_id
         price = float(root.price)
-        percent_changed = float(root.price_percentage_change_24h)
         last_price = self.database_manager.select_last_price(product_id)
         my_percent_changed = self.percent_change(last_price, price)
         self.logger.info("product: %s | price: "
                          "[current: (%f) <= previous: (%f)] "
-                         "| percent_change: %f"
-                         "| percent_change (24h): %f",
+                         "| percent_change (since initial run): %f",
                          product_id, price, last_price,
-                         my_percent_changed, percent_changed)
+                         my_percent_changed)
         if my_percent_changed >= DESIRED_PERCENT:
             print(
                 f"*** FOUND increase {my_percent_changed} > {DESIRED_PERCENT} =>  "
@@ -69,6 +71,9 @@ class CoinbaseService:
                              " price: [current: (%f) <= previous: (%f)]",
                              my_percent_changed, DESIRED_PERCENT, product_id, price, last_price)
             print(f"SELL {item} now at percent changed: {my_percent_changed}!")
+            lot = Lot(root.product_id, str(DESIRED_QTY), str(price), False,
+                      str(DESIRED_QTY*price), str(datetime.datetime.now()))
+            self.database_manager.save_lot(lot)
         # else:
         #    logging.info(f"currently no change found above {desired_percent} percent")
         # self.database_manager.store_price(product_id, price)

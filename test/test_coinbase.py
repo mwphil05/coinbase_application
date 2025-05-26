@@ -20,7 +20,7 @@ class TestCoinbase(unittest.TestCase):
         self.account_manager.get_product_info = MagicMock()
         self.account_manager.get_product_info.__getitem__.side_effect = \
             get_product_test_response().__getitem__
-        self.account_manager.get_crypto_pairs = MagicMock(return_value=["BTC-USD"])
+        self.account_manager.get_crypto_pairs = MagicMock(return_value=["BTC-USD", "ETH-USD", "SOL-USD"])
         self.instance = CoinbaseService(self.account_manager, self.database_manager)
         self.instance.percent_change = MagicMock(return_value=0.5)
 
