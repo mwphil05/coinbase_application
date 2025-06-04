@@ -44,10 +44,15 @@ class CoinbaseService:
         product_id = root.product_id
         price = float(root.price)
         self.database_manager.store_price(product_id, price)
+        # TODO: make save_lot the default behavior
+        lot = Lot(root.product_id, str(DESIRED_QTY), str(price), False,
+                  str(DESIRED_QTY*price), str(datetime.datetime.now()))
+        self.database_manager.save_lot(lot)
 
     def ingest_data_single(self, item):
         """
-        ingest a single crypto item
+        check a single crypto item and
+        sell if meets desired percent change
         :param item: a string representation
             of a crypto currency pair: i.e. "BTC-USD"
         :return:
@@ -67,16 +72,15 @@ class CoinbaseService:
                 f"*** FOUND increase {my_percent_changed} > {DESIRED_PERCENT} =>  "
                 f"product: {product_id} | price: "
                 f"[current: ({price}) <= previous: ({last_price})] ***")
+
             self.logger.info("FOUND increase: %f > %f => product: %s |"
                              " price: [current: (%f) <= previous: (%f)]",
                              my_percent_changed, DESIRED_PERCENT, product_id, price, last_price)
             print(f"SELL {item} now at percent changed: {my_percent_changed}!")
-            lot = Lot(root.product_id, str(DESIRED_QTY), str(price), False,
-                      str(DESIRED_QTY*price), str(datetime.datetime.now()))
-            self.database_manager.save_lot(lot)
-        # else:
-        #    logging.info(f"currently no change found above {desired_percent} percent")
-        # self.database_manager.store_price(product_id, price)
+            # TODO: add some kind of "sell_lot" call here
+            # else:
+            #    logging.info(f"currently no change found above {desired_percent} percent")
+            # self.database_manager.store_price(product_id, price)
 
     def init_all(self):
         """
